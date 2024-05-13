@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: rgb(193, 206, 204);
+    }
+    
+    .vf {
+      background-color: #fff0f0;
+      padding-top: 25px;
+      padding-left: 21px;
+      margin-top: 2px;
+    }
+  </style>
+
+  <title>Admin - Category</title>
+</head>
+
+<body onload="fetchCategoryName()">
+    <div class="d-flex body" id="wrapper">
+      <!-- Sidebar -->
+      <%- include('../../components/adminsidebar.component.ejs'); %>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+          <%- include('../../components/adminheader.component.ejs'); %>
+            <div class="container-fluid px-4">
+
+              <div class="row text-center my-5">
+                <span class="fs-2">Add New Category</span>
+              </div>
+              <form class="" id="categoryForm">
+                <div class="col-md-6 offset-md-3 d-flex gap-3">
+                  <div class="col mb-3">
+                    <label for="fname">Category Name</label>
+                    <input type="text" tabindex="1" class="form-control" id="catNamefor" name="catName"
+                      placeholder="Enter Category Name">
+                    <p class="text-danger"><small id="catNameError"></small></p>
+                  </div>
+                  <div class="col mb-3">
+                    <label for="description">Category Description</label>
+                    <input type="text" class="form-control" name="description" id="descrip">
+                    <p class="text-danger"><small id="descriptionError"></small></p>
+                  </div>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                  <div class="col">
+                    <select class="form-select" name="parentId" id="parentId">
+                    </select>
+                  </div>
+                  <div class="text-center mt-5">
+                    <button type="button" class="btn btn-danger" id="submit"
+                      onclick="submitCategoryFormData()">Submit</button>
+                  </div>
+                  <div class="text-center mt-5">
+                    <button type="button" class="btn btn-outline-danger editBtn" id="edit"
+                      onclick="submitEditedData()">Edit</button>
+                  </div>
+                  <div class="row text-center">
+                    <div class="span text-center text-success mt-3 fs-3" id="success"></div>
+                  </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- /#page-content-wrapper -->
+    </div>
+  </form>
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script>
+    async function editForm() {
+      const myParam = window.location.href;
+      const result = myParam.lastIndexOf('/');
+      const id = myParam.substr(result + 1, myParam.length);
+      const response = await fetch(`/kartezy/categoryList/edit/${id}`);
+      getDataForEdit = await response.json();
+      document.getElementById('catNamefor').value = getDataForEdit[0].category_name;
+      document.getElementById('descrip').value = getDataForEdit[0].category_description;
+      let desc = document.getElementById('parentId');
+      const selectedOption = desc.options;
+      for (let i = 0; i < selectedOption.length; i++) {
+        if (selectedOption[i].value == getDataForEdit[0].parent_category_id) {
+          selectedOption[i].selected = true
+        }
+      }
+      document.getElementById('submit').style.display = "none";
+      document.getElementById('edit').style.display = "block";
+    }
+
+
+
+
+
+    let obj = {};
+    function validateForm() {
+      const categoryNameRegx = /^[a-zA-Z ]+$/;
+      const formdata = document.querySelectorAll("#categoryForm input");
+
+      obj.error = [];
+      formdata.forEach(ele => {
+        if (ele.value == '') {
+          let v = document.getElementById(`${ele.name}` + "Error").innerHTML = `${ele.name}` + " " + "required";
+          obj.error.push(`${ele.name}` + " " + "required")
+        } else if (ele.name == 'catName' && ele.value != '') {
+          const categoryNameTrim = ele.value.trim()
+          if (!categoryNameRegx.test(categoryNameTrim)) {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = `Enter Proper Name`;
+            obj.error.push(`Enter Proper Name`)
+          } else {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = '';
+          }
+        } else if (ele.value != '') {
+          document.getElementById(`${ele.name}` + "Error").innerHTML = '';
+        }
+      });
+    }
+
+    const fetchCategoryName = async () => {
+      const response = await fetch("/kartezy/SelectCategory", {
+        method: "GET",
+      })
+      const resData = await response.json();
+      if (response.status === 200) {
+        let str = '';
+        str = `<option value="0">New Category</option>`;
+        resData.forEach(element => {
+          str += `<option value="${element.id}">${element.category_name}</option>`;
+        });
+        document.querySelector("#parentId").innerHTML = str;
+      } else {
+        console.log(resData.msg);
+      }
+      document.getElementById('edit').style.display = "none";
+      const myParam = window.location.href;
+      if (myParam.includes(`kartezy/categoryForm/edit/`)) {
+        editForm();
+      }
+    }
+    async function submitCategoryFormData() {
+      validateForm();
+      if (obj.error != "") {
+        return
+      }
+
+      const form = document.getElementById('categoryForm');
+      const formData = new FormData(form);
+      const serializedFormData = {};
+
+      for (const [key, value] of formData.entries()) {
+        const fieldName = key.replace('[]', '');
+        if (!serializedFormData[fieldName]) {
+          serializedFormData[fieldName] = [];
+        }
+        serializedFormData[fieldName].push(value);
+
+      }
+      try {
+        const response = await fetch('/kartezy/categoryForm/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(serializedFormData)
+        });
+        const res = await response.json();
+        if (res.flag == true) {
+          document.getElementById("success").innerHTML = "Data inserted successfully!!"
+        }
+      } catch (error) {
+        console.error("There was a problem with your fetch operation: ", error);
+      }
+    }
+
+    async function submitEditedData() {
+      validateForm();
+      if (obj.error != "") {
+        return
+      }
+      const myParam = window.location.href;
+      const result = myParam.lastIndexOf('/');
+      const id = myParam.substr(result + 1, myParam.length);
+      const form = document.getElementById('categoryForm');
+      const formData = new FormData(form);
+      const serializedFormData = {};
+
+      for (const [key, value] of formData.entries()) {
+        const fieldName = key.replace('[]', '');
+        if (!serializedFormData[fieldName]) {
+          serializedFormData[fieldName] = [];
+        }
+        serializedFormData[fieldName].push(value);
+      }
+      try {
+        const response = await fetch(`/kartezy/categoryList/edit/submit/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(serializedFormData)
+        });
+        const res = await response.json();
+        if (res.flag == true) {
+          document.getElementById("success").innerHTML = "Data edited successfully!!"
+        }
+      } catch (error) {
+        console.error("There was a problem with your fetch operation: ", error);
+      }
+    }
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+
+
+</body>
+
+</html>

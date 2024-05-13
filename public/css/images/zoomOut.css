@@ -1,0 +1,26 @@
+.image-container{
+    position:relative;
+    display: inline-block;
+}
+.zoom-img{
+    height: 400px;
+    width: 450px;
+}
+.zommed-image{
+   
+    display:none;
+    position: absolute;
+    top: 0;
+    left:0%;
+   
+    width :550px;
+    height: 490px;
+     border:1px solid rgb(223, 222, 222); 
+    background-size: cover;
+    background-position: center;
+    z-index: 999;
+    pointer-events: none;
+}
+.zoom-out-cursor{
+    cursor: zoom-out;
+}

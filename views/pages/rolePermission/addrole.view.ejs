@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Admin - Add Permissions</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+	<script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: var(--main-bg-color);
+    }
+  </style>
+</head>
+<body onload="displayAllPermissions()">
+  <div class="d-flex" id="wrapper" style="overflow: hidden;">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+        <form class="container-fluid px-4" id='addRolePermissionForm'>
+          <div class="row mb-3">
+            <div class="col" style="display: flex; flex-direction: row-reverse;"><a class="btn admin-btn" style="width: fit-content" href="/kartezy/admin/rolepermission/modifypermission">Back</a></div>
+          </div>
+          <div class="input-group">
+            <select name="roleName" class="form-select primary-text">
+              <option value="user" class="text-center">Customer</option>
+              <option value="logistic" class="text-center">Logistics</option>
+              <option value="vendor" class="text-center">Vendor</option>
+              <option value="admin" class="text-center">Admin</option>
+            </select>
+            <span class="btn admin-btn" onclick="addPermission()"><i class="bi bi-shield-fill-plus"></i>&nbsp;Add Permission</span>
+          </div>
+          <div style="overflow-y: auto; height: 75dvh" class="mt-3">
+            <table class="table table-hover" id="displaypermissions">
+              <tr>
+                <th class="text-center">Index</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">URL</th>
+                <th class="text-center">Method</th>
+                <th class="text-center">Create Time</th>
+                <th class="text-center">Operations</th>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/js/rolePermission/displayPermission.js"></script>
+  <script src="/js/getCookie.js"></script>
+  <script src="/js/rolePermission/addPermission.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: rgb(193, 206, 204);
+    }
+
+    .vf {
+      background-color: #fff0f0;
+      padding-top: 25px;
+      padding-left: 21px;
+      margin-top: 2px;
+    }
+  </style>
+
+  <title>Admin - Assign order</title>
+</head>
+
+<body onload="loadAsignOrderPage()">
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="d-flex">
+              <div class="container" style="width: fit-content;">
+                <div class="text-center fs-2 primary-text" id="displayHeaderOrder">
+                </div>
+                <div class="container" id="displayOrder" style='height: 80dvh; overflow-y: auto; overflow-x: hidden;'>
+                  <!-- orders details in card view -->
+                </div>
+                <span class="admin-btn" onclick="selectLogistics()"><i class="bi bi-truck"></i>&nbsp;Assign task</span>
+              </div>
+              <div class="container">
+                <div class="text-center fs-2 primary-text" id="displayHeaderLogistics">
+                </div>
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap;height: 80dvh; overflow-y: auto; overflow-x: hidden;" id="displayLogistics">
+                  <!-- logistics details in card view -->
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+  <script src="/socket/socket.io.js"></script>
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/js/admin_api/assiginOrderDisplay.js"></script>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- <script src="/js/admin_api/orderassign.js"></script> -->
+  
+  
+  
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <!-- <script src="/js/vendorAdmin/script.js"></script> -->
+
+</body>
+
+</html>

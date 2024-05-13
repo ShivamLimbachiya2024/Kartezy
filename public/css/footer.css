@@ -1,0 +1,90 @@
+.common{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.common1{
+  display: flex;
+  flex-direction: column;
+}
+.container{
+  width: 100%;
+}
+.TopContainer {
+ 
+  margin: auto;
+  align-items: center;
+  border: 2px solid #dcdfe8;
+  max-width: 50rem;
+  background-color:#ffffff;
+  border-radius: 10px;
+  padding-top: 20px;
+}
+.parent {
+  padding-top: 20px;
+  background-color: #f8f9fa;
+  width: 100%
+}
+.ContentCenter {    
+  gap: 20px;
+  text-align: left;
+  max-width: 20%;
+}
+.ContainerChild1 {
+  padding-top: 30px;
+  margin: 30px;
+  text-align: left;
+}
+.ContentCenterSub3 {
+  max-width: 20%;
+}
+.footer-img {
+  height: 50px;
+  width: 200px;
+}
+.About {
+  font-size: 12px;
+  font-weight: 500;
+}
+.SubTitle {
+  color: rgba(193, 9, 9, 0.588);
+}
+.url{
+    color: rgba(193, 9, 9, 0.588);
+    font-size: 15px;
+}
+.SubHead {
+  color: rgb(0, 0, 0);
+}
+.ContentCenterSub4 {
+  max-width: 20%;
+}
+.ContainerChild3 {
+  max-width: 30%;
+  align-items: center;
+  gap:20px;
+  margin: auto;
+  padding: 20px;
+  padding-left: 90px;
+}
+
+.ContainerChild4 {
+  max-width: 50%;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+  color:rgba(193, 9, 9, 0.588);
+
+}
+.CopyRight {
+  padding-top: 10px;
+  color: rgba(193, 9, 9, 0.588);
+}
+.vl {
+  border-left: 1px solid rgb(215, 214, 214);
+}
+.hl {
+    border-bottom: 1px solid rgb(215, 214, 214);
+  
+  }
+  

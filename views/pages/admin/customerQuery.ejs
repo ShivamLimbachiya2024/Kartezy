@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    /* .rcol:hover {
+      background-color: #df909d;
+    } */
+  </style>
+
+  <title>Admin - Query</title>
+</head>
+
+<body onload="displayQuery()" style="overflow: hidden;">
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4" style="height: 90dvh; overflow-y: scroll;">
+            <center>
+              <div id="displayqueries">
+                
+              </div>
+          </center>
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+  <script src="/socket/socket.io.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/customer_support/displayQueryForm.js"></script>
+  <script src="/js/customer_support/displayQueryAdminSide.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+</body>
+
+</html>

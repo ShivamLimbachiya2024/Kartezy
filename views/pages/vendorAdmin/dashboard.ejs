@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+
+  <title>Vendor Admin</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/vendorAdmin.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+        <%- include('../../components/vendorAdmin.header.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="row g-3 my-2 dashboardCounter">
+            </div>
+            <div class="row  my-5 ms-5">
+              <div class="col-md-4 d-felx justify-content-center bg-light me-5">
+                <h3 class="ms-5 ">Product stock</h3>
+                <div class="col-md-4 d-felx justify-content-center mt-5" id="chart"></div>
+
+              </div>
+              <div class="col-md-4 d-felx justify-content-center bg-light ">
+                <h3 class="ms-5"> Sales per Month</h3>
+                <div class="col " id="chart1"></div>
+
+              </div>
+              </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+
+
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    async function charData() {
+      let response = await fetch('/kartezy/vendorAdmin/chartData');
+      let resData = await response.json()
+      let productname = []
+      let productQnt = []
+
+      resData.result1.map(ele => {
+        productname.push(ele.product_name)
+        productQnt.push(ele.quanitiy)
+      });
+
+      let vendor_name=resData.vendordet.first_name +' '+resData.vendordet.last_name;
+
+      document.getElementById('navbarDropdown').innerText=vendor_name
+
+
+
+      let month = [];
+      let salaesData = [];
+
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+
+      const salesMonth=resData.result2.map(ele=>{
+     
+        let dt=new Date(ele.ordered_date)
+        let datatYear=dt.getFullYear();
+
+     
+        if(datatYear===currentYear){
+        //  ele.order_date=dt.getMonth()
+        ele.ordered_date=dt.toLocaleString('default',{month:'long'})
+         return ele
+        }
+      })  
+    
+     
+      const salesPerMonth=salesMonth.reduce((acc,curr)=>{
+        if(acc[curr.ordered_date]){
+         
+          acc[curr.ordered_date]+=curr.total_price
+        }
+        else{
+          acc[curr.ordered_date]=curr.total_price
+        }
+        return acc
+      },{})
+
+      const salesMonthData=Object.keys(salesPerMonth);
+      const salesRevenueData=Object.values(salesPerMonth);
+
+
+
+
+
+
+      //pie chart 
+      var options = {
+        // series: [44, 55, 13, 43, 22],
+        series: productQnt,
+
+        chart: {
+          width: 380,
+          type: 'pie',
+        },
+        // labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+        labels: productname,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      //line chart
+    var options = {
+      series: [{
+        name: "order ",
+        // data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        data: salesRevenueData
+      }],
+      chart: {
+        height: 350,
+        type: 'line',
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+      title: {
+        text: 'Sales trend per month',
+        align: 'left'
+      },  
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        },
+      },
+      xaxis: {
+        // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        categories: salesMonthData,
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart1"), options);
+    chart.render();
+
+    }
+    charData()
+
+
+    
+  </script>
+
+</body>
+
+</html>

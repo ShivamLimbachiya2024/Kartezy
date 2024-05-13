@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+  <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Vendor Admin - Orders</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/vendorAdmin.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+        <%- include('../../components/vendorAdmin.header.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="row my-5">
+              <div class="mb-3">
+                <h3 class="fs-4 mb-3 d-inline-block">All Orders</h3>
+              </div>
+              <div class="col">
+                <input type="text" placeholder="Serach here..." id="serchField" class="form-control my-3">
+                <table class="table table-bordered align-middle">
+                  <thead></thead>
+                  <tbody></tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item firstPage">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item prevButton"><a class="page-link" href="#">&lt;</a></li>
+                    <li class="page-item page"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item nextButton"><a class="page-link" href="#">&gt;</a></li>
+                    <li class="page-item">
+                      <a class="page-link lastPage" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+
+  </div>
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Order Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+
+            <div class="d-flex flex-column justify-content-center">
+              <div class="d-flex">
+              <h5 class="mb-1 mt-1" id="orderId"> </h5><span id="orderStatus" class="badge bg-label-success me-2 fs-6 ms-2"></span> 
+              </div>
+              <p class="text-body" id="orderPlaced"></p>
+            </div>
+          </div>
+
+          <!-- Order Details Table -->
+
+          <div class="row">
+            <div class="col-12 col-lg-8">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h6 class="card-title m-0">Customer details</h6>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-start align-items-center mb-4">
+              
+                    <div class="d-flex flex-column">
+                      <a href="app-user-view-account.html" class="text-body text-nowrap">
+                        <h6 class="mb-0" id="username"></h6>
+                      </a>
+                      <small class="text-muted" id="userId"></small>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <h6>Contact info</h6>
+                  </div>
+                  <p class=" mb-1" id="email"></p>
+                  <p class=" mb-0" id="phone"></p>
+                </div>
+              </div>
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="card-title m-0">Order details</h5>
+                </div>
+                <div class="card-datatable table-responsive">
+                  <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <table class="datatables-order-details table dataTable no-footer dtr-column" id="DataTables_Table_0">
+                      <thead>
+                        <tr>
+
+                          <th class="w-50 sorting_disabled" rowspan="1" colspan="1" style="width: 354px;"
+                            aria-label="products">
+                            products</th>
+                          <th class="w-25 sorting_disabled" rowspan="1" colspan="1" style="width: 154px;"
+                            aria-label="price">price
+                          </th>
+                          <th class="w-25 sorting_disabled" rowspan="1" colspan="1" style="width: 144px;"
+                            aria-label="qty">qty
+                          </th>
+                          <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 53px;" aria-label="total">
+                            total</th>
+                        </tr>
+                      </thead>
+                      <tbody id="orderItems"></tbody>
+                    </table>
+                    
+                    <div style="width: 1%;"></div>
+                  </div>
+                  <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
+                    <div class="order-calculations">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span class="w-px-100">Subtotal: </span>
+                        <span class="text-heading" id="subTotal"></span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span class="w-px-100">Shipping Cost: &nbsp;</span>
+                        <span class="text-heading" id="shippingCost"></span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <h6 class="w-px-100 mb-0">Total:</h6>
+                        <h6 class="mb-0" id="subTotalWithShipping"></h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              
+              <div class="card mb-4">
+
+                <div class="card-header d-flex justify-content-between">
+                  <h6 class="card-title m-0">Shipping address</h6>
+                  </h6>
+                </div>
+                <div class="card-body">
+                  <p class="mb-0" id="shippingAddress"></p>
+                </div>
+
+              </div>
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between">
+                  <h6 class="card-title m-0">Billing address</h6>
+                  </h6>
+                </div>
+                <div class="card-body">
+                  <p class="mb-4" id="billingAddress"></p>
+                  <h6 class="mb-0 pb-2">Payment card Type:</h6>
+                  <p class="mb-0" id="paymentype"></p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/js/vendorAdmin/orders.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

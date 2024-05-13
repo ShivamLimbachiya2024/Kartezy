@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+
+  <title>Home Page</title>
+</head>
+
+<body>
+  <div class="preloader">
+    <img src="/images/backgrounds/tube-spinner.svg" alt="preloader">
+  </div>
+
+  <%- include('../components/header.componant.ejs'); %>
+
+    <!-- Three Hero section card  -->
+    <section class="section section-front-card">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row">
+          <!-- shop -->
+          <div class="col-md-4 col-xs-6">
+            <div class="shop">
+              <div class="shop-img image-container">
+                <img src="/images/backgrounds/electronics-hero.webp" alt="" >
+              </div>
+              <div class="shop-body">
+                <h3>Electronics<br>Collection</h3>
+                <a href="/KartEzy/home/filterPage?category=Electronics" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- /shop -->
+
+          <!-- shop -->
+          <div class="col-md-4 col-xs-6">
+            <div class="shop">
+              <div class="shop-img">
+                <img src="/images/backgrounds/cloth-hero.webp" alt="">
+              </div>
+              <div class="shop-body">
+                <h3>Clothing & Apparel<br>Collection</h3>
+                <a href="/KartEzy/home/filterPage?category=Clothing & Apparel" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- /shop -->
+
+          <!-- shop -->
+          <div class="col-md-4 col-xs-6">
+            <div class="shop">
+              <div class="shop-img">
+                <img src="  /images/backgrounds/toys-hero.jpg" alt="">
+                
+              </div>
+              <div class="shop-body">
+                <h3>Toys & Games<br>Collection</h3>
+                <a href="/KartEzy/home/filterPage?category=Toys & Games" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- /shop -->
+        </div>
+        <!-- /row -->
+      </div>
+      <!-- /container -->
+    </section>
+
+    <!-- letest products  -->
+    <section class="section section-letest-product">
+      <div class="container">
+        <h2 class="section-heading">Latest Products</h2>
+        <div class=" section-letest-product card-container">
+        </div>
+    </div>
+    </section>
+
+    <!-- top selling products  -->
+    <section class="section section-top-product">
+      <div class="container">
+        <h2 class="section-heading">Top Selling</h2>
+
+        <!-- need to add here -->
+        <div class="section-top-product card-container">
+        </div>
+    </div>
+    </section>
+
+    <!-- all product list  -->
+    <section class="section section-all-product">
+      <div class="container">
+        <h2 class="section-heading">All Products</h2>
+
+        <div class="section-all-product card-container">
+        </div>
+    </div>
+    </section>
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <%- include('../components/footer.componant.ejs'); %>
+
+</body>
+<script>
+  document.onreadystatechange = function() {
+    if (document.readyState !== "complete") {
+        document.querySelector(".preloader").style.visibility = "visible";
+    } else {
+        document.querySelector(".preloader").style.display = "none";
+    }
+  };
+</script>
+<script src="/js/homeApi/homeApi.js"></script>
+<script src ="/js/savedproduct/addSavedProduct.js"></script>
+</html>

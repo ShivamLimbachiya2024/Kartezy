@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Your cart</span>
+        <span class="badge badge-secondary badge-pill">3</span>
+      </h4>
+      <ul class="list-group mb-3 p-2 " id="list">
+        <li id="totalPrize" class="list-group-item d-flex justify-content-between">
+          <span>Total (INR)</span>
+          <strong id="subTotal"></strong>
+        </li>
+      </ul>
+
+    </div>
+    <div class="col-md-8 order-md-1">
+      <form id="checkoutForm">
+        <div class="mb-3">
+          <h4 class="mb-2">Order Note</h4>
+          <input type="text" class="form-control" name="order_note" id="order_note" placeholder="Remarks...">
+        </div>
+        <hr class="mb-4">
+
+        <h4 class="mb-2">Billing address </h4>
+        <a href="/kartezy/renderCheckoutAddform"><button class="btn btn-warning mb-2" type="button">+</button></a>
+        <div id="custadd"></div>
+        <div id="addErr" class="d-none">Select atleast one address!</div>
+        <hr class="mb-4">
+
+        <h4 class="mb-2">Payment </h4>
+        <a href="/kartezy/renderCheckoutPaymentform"><button class="btn btn-warning mb-2" type="button">+</button></a>
+        <div id="custPayment"></div>
+        <div id="payErr" class="d-none">Select atleast one payment!</div>
+
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Order now !</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="/js/checkoutPage/checkoutPage.js"></script>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
+    body {
+      font-family: 'Saira Semi Condensed', sans-serif;
+      background-color: #ffe6eaa3 !important;
+    }
+
+    .tick {
+      position: relative;
+      top: 0.5vh;
+    }
+
+    .main {
+      height: auto;
+      width: 35vw;
+      background-color: #f5f5f9;
+      margin: auto;
+      position: relative;
+      top: 15vh;
+      padding: 3vh;
+      border-radius: 15px;
+    }
+
+    .picture img {
+      height: 13vw;
+      width: 13vw;
+      position: relative;
+      top: 1vw;
+    }
+
+    .add {
+      background-color: #ffe6eaa3;
+      position: relative;
+      top: 3vw;
+      right: 2vw;
+    }
+
+    .name {
+      font-size: 20px;
+    }
+
+    .details p {
+      position: relative;
+      top: 1vw;
+    }
+
+    .name i {
+      color: blue;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    tr {
+      border: 2px solid white;
+    }
+
+    .table {
+      margin-top: 2vw;
+
+    }
+
+    .material-icons {
+      width: inherit;
+      display: inline-block;
+      text-align: center;
+      color: #ffe6eaa3;
+      font-size: 2.6rem;
+      line-height: 40px;
+    }
+
+    label {
+      font-size: medium;
+      font-weight: 800;
+      color: rgb(67, 66, 66);
+    }
+
+    .edit {
+      background-color: #D10024;
+      width: 90%;
+      color: #fff !important;
+    }
+
+    .SuperParent {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media only screen and (max-width: 425px) {
+      .main {
+        width: 100vw;
+        height: auto;
+      }
+
+      .picture img {
+        height: 40vw;
+        width: 40vw;
+        position: relative;
+        left: 5vw;
+      }
+
+      .details p {
+        position: relative;
+        top: 5vw;
+      }
+
+      .add {
+        position: relative;
+        top: 8vw;
+      }
+    }
+
+    @media only screen and (max-height: 725px) {
+      .main {
+        height: auto;
+      }
+    }
+
+    h3 {
+      color: #D10024;
+      ;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <form method="post" id="ProfileRender" action="/">
+    <div class="z-depth-5 main SuperParent">
+      <h3>Welcome <%=users[0].first_name %>
+          <%=users[0].last_name %>! </h3>
+
+
+      <div class="userdetails">
+
+        <div>
+          <input type="text" name="userid" hidden />
+        </div>
+        <div>
+          <label>First Name:</label>
+          <input type="text" name="fname" disabled value=<%=users[0].first_name %> >
+
+        </div>
+        <div>
+          <label>Last Name:</label>
+          <input type="text" name="lname" disabled value=<%=users[0].last_name %> />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input type="text" name="email" disabled value=<%=users[0].email %> />
+        </div>
+        <div>
+          <label>Phone No:</label>
+          <input type="text" name="phoneno" disabled value=<%=users[0].mobile_no %> />
+        </div>
+        <div>
+          <label>Date Of Birth:</label>
+          <input type="date" disabled name="dob" value=<%=users[0].dob %> />
+        </div>
+
+      </div>
+      <div>
+        <center><a href="http://localhost:7070/kartezy/ProfileEdit/?id=<%= users[0].id %>" id="submit"
+         class="waves-effect waves-light btn edit" role="button">Edit Button</a></center>
+      </div>
+    </div>
+  </form>
+  <script src="/js/profilee/profileRender.js"></script>
+</body>
+
+</html>

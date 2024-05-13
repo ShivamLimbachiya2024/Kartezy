@@ -1,0 +1,42 @@
+.icon-hover:hover {
+  border-color: #3b71ca !important;
+  background-color: white !important;
+}
+
+.icon-hover:hover i {
+  color: #3b71ca !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--red);
+  border-color: var(--red);
+}
+
+.red-btn {
+  background: #fff;
+  color: #D10024;
+  border: 1px solid #D20024;
+  transition: .3s;
+}
+
+.red-btn:hover, .red-btn:hover i{
+  background: #D10024;
+  color: #fff;
+}
+
+.color-red {
+  color: #D10024;
+}
+
+.filter-sidebar {
+  position: sticky;
+  top: 93px;
+  right: 0;
+  height: 795px;
+}
+
+.soldImg{
+  width: 63px;
+  margin-left: 6px;
+  transform: rotate(10deg);
+}

@@ -1,0 +1,8 @@
+*.env
+*.log
+*.git
+package-lock.json
+/node_modules
+/public/images/products
+*.pdf
+/public/images/pruduct_comment

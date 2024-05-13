@@ -1,0 +1,161 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<!-- <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Component</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .btns,
+    .inputBtn {
+      margin-right: 10px;
+    }
+  </style>
+</head>  -->
+
+<body onload="showGridResult('/kartezy/admin/getTotalCustomers')">
+  <div class="my-4 d-flex justify-content-center">
+    <div class="btns">
+      <button type="button" disabled class="btn btn-primary" onclick="previous()" id="previous"><i
+          class="bi bi-chevron-left"></i></button>
+      <span id="page" class="fs-4 align-middle mx-2">1</span>
+      <button type="button" class="btn btn-primary mr-5" onclick="next()" id="next"><i
+          class="bi bi-chevron-right"></i></button>
+    </div>
+    <div class="d-flex ">
+      <input type="text" id="query"  class="form-control inputBtn" placeholder="Search">
+      <button type="button" class="btn btn-secondary  mr-5" onclick="search()"><i class="bi bi-search"></i></button>
+    </div>
+  </div>
+  <table class="table table-responsive mb-3" id="mytable">
+    <thead>
+      <tr id="field"></tr>
+    </thead>
+    <tbody id="fieldData"></tbody>
+  </table>
+  <h2 id="message" class="text-center"></h2>
+  <script>
+    let page = 1;
+    let gridComponentResult;
+    const recordsPerPage = 3;
+    let pageNumber = 1;
+    let totalPages;
+    let start = (pageNumber - 1) * recordsPerPage;
+    let end = start + recordsPerPage;
+    let oldData = []
+
+
+
+    async function search() {
+      const query = document.getElementById('query').value.trim()
+
+   
+
+      if (oldData.length == 0) {
+        oldData = gridComponentResult
+      }
+      gridComponentResult = oldData;
+      gridComponentResult = gridComponentResult.filter(item => {
+        return Object.values(item).toString().toLowerCase().includes(query.toLowerCase())
+      })
+
+      pageNumber = 1;
+      totalRecords = gridComponentResult.length;
+      totalPages = Math.ceil(totalRecords / recordsPerPage);
+      document.getElementById("next").disabled = false
+
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+
+    
+      if(gridComponentResult==''){
+        document.getElementById("message").innerHTML=`<h2>No result found for '${query}'<h2>`
+      }
+      else{
+        document.getElementById("message").innerHTML=''
+      }
+
+
+      document.getElementById("fieldData").innerHTML = ''
+      gridResult();
+
+    }
+
+
+    async function showGridResult(url) {
+      const response = await fetch(url);
+      gridComponentResult = await response.json();
+
+      let totalRecords = gridComponentResult.length;
+      totalPages = Math.ceil(totalRecords / recordsPerPage);
+
+      let fieldName = Object.keys(gridComponentResult[0]);
+      let field = document.getElementById("field");
+      fieldName.forEach(element => {
+        let th = document.createElement("th");
+        th.innerHTML = element;
+        field.appendChild(th);
+      });
+
+      gridResult();
+    }
+
+    async function gridResult() {
+      if (start > gridComponentResult.length) {
+        start = 0;
+      }
+      // let newGridComponentResult = gridComponentResult;
+      let newGridComponentResult = gridComponentResult.slice(start, end);
+      let tag = "";
+      let tags = "";
+     
+      const tbody = document.getElementById("fieldData");
+      newGridComponentResult.forEach(dataArray => {
+        let keysArray = Object.keys(dataArray);
+        let valuesArray = Object.values(dataArray);
+        let tr = document.createElement("tr");
+        valuesArray.forEach(valuesResult => {
+          let td = document.createElement("td");
+          td.innerText += valuesResult;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      document.getElementById('page').innerHTML = pageNumber;
+
+    }
+
+    function next() {
+     
+      pageNumber++;
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+      if (pageNumber == totalPages) {
+        document.getElementById('next').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('previous').disabled = false;
+      }
+    }
+
+    function previous() {
+      pageNumber--;
+      start = ( pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+      if (pageNumber == 1) {
+        document.getElementById('previous').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('next').disabled = false;
+      }
+    }
+  
+  </script>
+

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <style>
+    .rcol:hover {
+      background-color: rgb(193, 206, 204);
+    }
+
+    .vf {
+      background-color: #fff0f0;
+      padding-top: 25px;
+      padding-left: 21px;
+      margin-top: 2px;
+    }
+  </style>
+
+  <title>Admin - Category</title>
+</head>
+
+<body onload="showGridResult()">
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+
+            <div class="row">
+              <div class="my-4 d-flex justify-content-center">
+                <div class="btns">
+                  <button type="button" disabled class="btn btn-primary" onclick="previous()" id="previous"><i
+                      class="bi bi-chevron-left"></i></button>
+                  <span id="page" class="fs-4 align-middle mx-2">1</span>
+                  <button type="button" class="btn btn-primary mr-5" onclick="next()" id="next"><i
+                      class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+              <table class="table table-responsive mb-3" id="mytable">
+                <thead id="thead">
+                  <tr id="field"></tr>
+                </thead>
+                <tbody id="fieldData"></tbody>
+              </table>
+            </div>
+            <div class="row mt-3 d-flex justify-content-end ">
+              <div class="col-3">
+                <button type="button" class="btn btn-success ms-5" onclick="addCategory()">Add Category</button>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let page = 1;
+    let gridComponentResult;
+    const recordsPerPage = 5;
+    let pageNumber = 1;
+    let totalPages;
+    let start = (pageNumber - 1) * recordsPerPage;
+    let end = start + recordsPerPage;
+
+
+    async function showGridResult() {
+      const response = await fetch("/kartezy/categoryList/data");
+      gridComponentResult = await response.json();
+      let totalRecords = gridComponentResult.length;
+      totalPages = Math.ceil(totalRecords / recordsPerPage);
+      let fieldName = Object.keys(gridComponentResult[0]);
+      let field = document.getElementById("field");
+      fieldName.forEach(element => {
+        let th = document.createElement("th");
+        th.innerHTML = element;
+        field.appendChild(th);
+      });
+      let th = document.createElement("th");
+      th.innerHTML = `<th>Edit or Delete</th>`;
+      field.appendChild(th);
+
+      gridResult();
+    }
+
+    async function gridResult() {
+      if (start > gridComponentResult.length) {
+        start = 0;
+      }
+      let newGridComponentResult = gridComponentResult.slice(start, end);
+      let tag = "";
+      let tags = "";
+      const tbody = document.getElementById("fieldData");
+      newGridComponentResult.forEach(dataArray => {
+        let keysArray = Object.keys(dataArray);
+        let valuesArray = Object.values(dataArray);
+        let tr = document.createElement("tr");
+        valuesArray.forEach(valuesResult => {
+          let td = document.createElement("td");
+          td.innerText += valuesResult;
+          tr.appendChild(td);
+        });
+        let td = document.createElement("td");
+        td.innerHTML = `<a href="/kartezy/categoryForm/edit/${valuesArray[0]}"><button type="button" class="btn btn-warning">Edit</button></a>
+        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="deleteRow(event, ${valuesArray[0]})">Delete</button>`;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      });
+      document.getElementById('page').innerHTML = pageNumber;
+
+    }
+
+    function next() {
+      pageNumber++;
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+      if (pageNumber == totalPages) {
+        document.getElementById('next').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('previous').disabled = false;
+      }
+    }
+
+    function previous() {
+      pageNumber--;
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+      if (pageNumber == 1) {
+        document.getElementById('previous').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('next').disabled = false;
+      }
+    }
+
+    async function deleteRow(event, id) {
+      let parent = event.target.parentNode.parentNode;
+      parent.style.display = "none";
+      try {
+        const response = await fetch(`/kartezy/categoryList/delete/${id}`, {
+          method: 'POST'
+        });
+        const res = await response.json();
+      } catch (error) {
+        console.error("There was a problem with your fetch operation: ", error);
+      }
+    }
+
+    function addCategory(){
+      window.location.href=`/kartezy/admin/addCategory`
+    }
+  </script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+<!-- <script src="/js/vendorAdmin/script.js"></script> -->

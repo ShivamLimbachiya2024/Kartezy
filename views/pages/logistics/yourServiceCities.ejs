@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+  <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+  <style>
+    #selectedOpt {
+      padding-left: 10px;
+      padding-bottom: 10px;
+    }
+
+    .selectBox {
+      position: relative;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .center-text {
+      text-align: center;
+      color: green;
+    }
+
+
+    .options {
+      list-style: none;
+      padding: 0;
+      max-height: 250px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .options li {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .options li:hover {
+      background-color: #f0f0f0;
+    }
+
+    .selected-option {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #clear-button {
+      background-color: #ff6347;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #clear-button:hover {
+      background-color: #ff0000;
+    }
+  </style>
+  <title>Logistic - Set Cities</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/logistic.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+        <%- include('../../components/logistic.header.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="row my-5">
+              <div class="mb-3">
+                <h3 class="fs-4 mb-3 d-inline-block">All Service City</h3>
+                <button class="admin-btn btn" data-bs-toggle="modal" data-bs-target="#addCity" style="float: right;"> <i class="bi bi-plus fs-5 "></i> Add Service City</button>
+                <input type="text" placeholder="Serach here..." id="serchField" class="form-control my-3">
+              </div>
+              <div class="col overflow-scroll">
+                <table class="table table-bordered align-middle">
+                  <thead>
+                    <th>Id</th>
+                    <th>Logistic Id</th>
+                    <th>City</th>
+                    <th>Pincode</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade " id="addCity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add your service city</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="selectBox">
+                <input type="text" class="search-box" placeholder="Search your city...">
+                <ul class="options" id="cityOptions">
+                  <ul class="options"></ul>
+                </ul>
+              </div>
+              <div class="selected-option">Select an option</div>
+              <div id="selectedOpt"></div>
+              <button id="clear-button">Clear Selection</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="submitCityService()">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  </div>
+  <!-- /#page-content-wrapper -->
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/logistic/serviceCities.js"></script>
+</body>
+
+</html>

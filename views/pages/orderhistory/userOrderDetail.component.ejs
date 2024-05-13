@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>KartEzy - Order</title>
+  <style>
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+  </style>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+</head>
+<body onload="displayParticularOrder()">
+  <%- include('../../components/header.componant.ejs'); %>
+  <div class="container mt-3" id="order">
+  </div>
+  <span style="position:absolute; right: 70px; bottom: 70px; border-radius: 50%; padding: 10px 17px;" class="admin-btn" id="invoicegenratebtn"><i class="bi bi-download fs-3"></i></span>
+  <%- include('../../components/footer.componant.ejs'); %>
+  <script src="/js/homeApi/displayHeader.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/pdfGenrate.js"></script>
+  <script src="/js/orderhistory/diplsayOrder.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="/socket/socket.io.js"></script>
+</body>
+</html>

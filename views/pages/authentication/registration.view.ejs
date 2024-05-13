@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+	<title>KartEzy - Registration</title>
+	<link href="/bootstrap/bootstrap.css" rel="stylesheet">
+	<script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+	<style>
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100vh
+		}	
+		.container {
+			border-radius: 15px;
+			box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+			margin: auto;
+		}
+	</style>
+	<script src="/js/authentication/validation.js"></script>
+	<script src="/js/authentication/timer.js"></script>
+	<script src="/js/authentication/adduser.js"></script>
+</head>
+
+<body>
+	<div class="d-flex container" style="width: fit-content;">
+		<div class="m-auto d-none d-sm-block" style="width: 400px;">
+			<img src="/images/backgrounds/background1.gif" width="100%" height="auto">
+		</div>
+		<form id='register_form' style="width: fit-content;">
+			<div class="p-4">
+				<div class="row">
+					<div class="col mb-3">
+						<h1 class="text-primary text-center">Sign Up</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col mb-3">
+						<p id="error" class="alert alert-danger text-center p-2 bold" style='display: none;'></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col mb-3 col-md-12 col-lg-6">
+						<label class="text-primary" for="firstName">First name : </label>
+						<input tabindex="1" type="text" name="firstname" id="firstName" placeholder="First Name" class="form-control border-primary">
+					</div>
+					<div class="col mb-3 col-md-12 col-lg-6">
+						<label class="text-primary" for="lastName">Last name : </label>
+						<input type="text" tabindex="2" name="lastname" id="lastName" placeholder="Last Name" class="form-control border-primary">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col mb-3">
+						<label class="text-primary" for="email">Email ID : </label>
+						<input type="text" tabindex="3" name="email" id="email" placeholder="Email Id"
+							class="form-control border-primary">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col mb-3">
+						<label class="text-primary" for='phoneno'>Phone no : </label>
+						<input type="text" tabindex="4" name="phoneno" id="phoneno" placeholder="Phone No."
+							class="form-control border-primary">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col mb-3">
+						<label class="text-primary" for="birthdate">Birthdate : </label>
+						<input type="text" tabindex="5" placeholder="Birthdate" name="date" id="date"
+							class="form-control border-primary" onfocus="this.type='date'">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<input type="button" tabindex="6" class="btn btn-primary w-100" onclick="return addUser()" value="Sigin Up">
+					</div>
+					<div class="col-md-6 mb-3">
+						<input type="reset" tabindex="7" class="btn btn-outline-danger w-100" value="Clear">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col mb-3 col text-center">
+						<a href="/kartezy/login" tabindex="8">Account is already exist?</a><br>
+						<a href="/kartezy" tabindex="9">Back</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>KartEzy - Customer support</title>
+</head>
+
+<body onload='displayQueryCustomer()'>
+
+    <%- include('../components/header.componant.ejs'); %>
+    <div class="container mt-4">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="bi bi-search primary-text"></i></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Email ID" aria-label="Username" aria-describedby="basic-addon1" oninput="serachQuery(this.value)">
+      </div>
+    </div>
+    <div class="container" id="displayQueryTable" style="width: 60%">
+    </div>
+  <span class="admin-btn" style="position: fixed; width: fit-content; right: 10px; top: 90dvh;" onclick="displayQueryForm()"><i class="bi bi-question-diamond-fill fs-4"></i></span>
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <%- include('../components/footer.componant.ejs'); %>
+</body>
+  <script src="/socket/socket.io.js"></script>
+  <script src="/js/homeApi/homeApi.js"></script>
+<script src ="/js/savedproduct/addSavedProduct.js"></script>
+<script src="/js/customer_support/displayQueryAdminSide.js"></script>
+<script src="/js/customer_support/displayQueryCustomer.js"></script>
+<script src="/js/customer_support/displayQueryForm.js"></script>
+</html>

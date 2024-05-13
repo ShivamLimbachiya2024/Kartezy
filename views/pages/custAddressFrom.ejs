@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>KartEzy - Address</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+    <script src="/sweetalert2/sweetalert2.min.js"></script>
+    <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <style>
+    .address {
+      padding-left: 10px;
+    }
+
+    .addr-p {
+      margin-bottom: 0;
+    }
+
+    a {
+      font-size: 14px;
+      font-weight: 700
+    }
+
+    .superNav {
+      font-size: 13px;
+    }
+
+    .form-control {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .fs-15 {
+      font-size: 15px;
+    }
+
+    @media screen and (max-width:540px) {
+      .centerOnMobile {
+        text-align: center
+      }
+    }
+
+    .footer-clean {
+      padding: 50px 0;
+      background-color: #fff;
+      color: #4b4c4d;
+    }
+
+    .footer-clean h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .footer-clean ul {
+      padding: 0;
+      list-style: none;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .footer-clean ul a {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.8;
+    }
+
+    .footer-clean ul a:hover {
+      opacity: 1;
+    }
+
+    .footer-clean .item.social {
+      text-align: right;
+    }
+
+    @media (max-width:767px) {
+      .footer-clean .item {
+        text-align: center;
+        padding-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-clean .item.social {
+        text-align: center;
+      }
+    }
+
+    .footer-clean .item.social>a {
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      display: inline-block;
+      text-align: center;
+      margin-left: 10px;
+      margin-top: 22px;
+      color: inherit;
+      opacity: 0.75;
+    }
+
+    .footer-clean .item.social>a:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width:991px) {
+      .footer-clean .item.social>a {
+        margin-top: 40px;
+      }
+    }
+
+    @media (max-width:767px) {
+      .footer-clean .item.social>a {
+        margin-top: 10px;
+      }
+    }
+
+    .footer-clean .copyright {
+      margin-top: 14px;
+      margin-bottom: 0;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    #contHeight {
+      height: 69vh;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('../components/header.componant.ejs'); %>
+    <div id="contHeight" class="container d-flex align-items-center justify-content-center">
+      <form id="addForm">
+        <div class="row">
+          <div class="mb-3">
+            <label for="address">Title</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Home Address">
+            <div class="invalid-feedback">
+              Please enter valid title.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="house">House No.</label>
+            <input type="text" class="form-control" name="house" id="house" placeholder="A-109" value="">
+            <div class="invalid-feedback">
+              Valid house no. is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="landmark">Landmark</label>
+            <input type="text" class="form-control" name="landmark" id="landmark" placeholder="India Gate" value="">
+            <div class="invalid-feedback">
+              Valid landmark is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="address2">Area</label>
+          <input type="text" class="form-control" name="area" id="area" placeholder="Sola, Gota etc">
+          <div class="invalid-feedback">
+            Please provide a valid Area.
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="state">City</label>
+            <input type="text" class="form-control" name="city" id="city" placeholder="City">
+            <div class="invalid-feedback">
+              Please provide a valid city.
+            </div>
+          </div>
+          <div class="col-md-5 mb-3">
+            <label for="state">State</label>
+            <input type="text" class="form-control" name="state" id="state" placeholder="State">
+            <div class="invalid-feedback">
+              Please provide a valid state.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" name="pincode" id="zip" placeholder="370140">
+            <div class="invalid-feedback">
+              6 digits zip code required.
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Save Add</button>
+      </form>
+    </div>
+    <%- include('../components/footer.componant.ejs'); %>
+      <script src="/js/checkoutPage/custAddress/custAddress.js"></script>
+      <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

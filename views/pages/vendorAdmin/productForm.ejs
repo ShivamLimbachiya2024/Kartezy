@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Vendor Admin - Product</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/vendorAdmin.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+        <%- include('../../components/vendorAdmin.header.ejs'); %>
+          <div class="container-fluid px-4">
+            <!-- breadcrumb for path  -->
+            <nav aria-label="breadcrumb my-4">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/kartezy/vendorAdmin/products">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+              </ol>
+            </nav>
+
+            <!-- heading -->
+            <div class="mb-3">
+              <h3 class="fs-4 mb-3 d-inline-block">Add Product</h3>
+            </div>
+            <div class="p-2 bg-white shadow-sm rounded">
+              <div class="m-4">
+                <form id="productForm">
+                  
+                  <!-- basic details  -->
+                  <div class="row g-3">
+                    <h5>Basic Details</h5>
+                    <div class="col-4">
+                      <label for="productName" class="form-label">Product Name :</label>
+                      <input type="text" class="form-control" placeholder="Product Name" id="productName" name="productName">
+                      <span class="productNameError errorSpan"></span>
+                    </div>
+                    <div class="col-4">
+                      <label for="price" class="form-label">Price :</label>
+                      <input type="text" class="form-control" placeholder="Rs." id="price" name="price">
+                      <span class="priceError errorSpan"></span>
+                    </div>
+                    <div class="col-4">
+                      <label for="quantity" class="form-label">quantity</label>
+                      <input type="text" class="form-control" placeholder="Quantity" id="quantity" name="quantity">
+                      <span class="quantityError errorSpan"></span>
+                    </div>
+                    <div class="col-4">
+                      <label for="category" class="form-label">Category</label>
+                      <select class="form-select" id="category" name="category"></select>
+                      <span class="categoryError errorSpan"></span>
+                    </div>
+
+                    <div class="col-4">
+                      <label for="subCategory" class="form-label">Sub Category</label>
+                      <select class="form-select" id="subCategory" name="subCategory"></select>
+                      <span class="subCategoryError errorSpan"></span>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                      <span class="descriptionError errorSpan"></span>
+                    </div>
+
+                  </div>
+                  <hr>
+
+                  <!-- Specification  -->
+                  <div class="g-3">
+                    <h5 class="mb-4 mt-4">Specification</h5>
+                    <div id="specificationContainer">
+
+                      <div class="row specificationFields">
+                        <div class="col-4">
+                          <input type="text" class="form-control" placeholder="Specification Title" name="specificationTitle[]" id="specificationTitle1">
+                          <span class="specificationTitle1Error errorSpan"></span>
+                        </div>
+                        <div class="col-auto p-2">
+                          <i class="bi bi-dash-lg"></i>
+                        </div>
+                        <div class="col-4">
+                          <input type="text" class="form-control" placeholder="Specification Value" name="specificationValue[]" id="specificationValue1">
+                          <span class="specificationValue1Error errorSpan"></span>
+                        </div>
+                      </div> 
+
+                    </div>
+                    <button type="button" class="btn btn-primary" id="addSpecificationBtn"><i class="bi bi-plus"></i> ADD</button>
+                  </div>
+                  <hr>
+
+                  <!-- Image Upload  -->
+                  <div class="g-3">
+                    <h5 class="mb-4 mt-4">Product Images</h5>
+
+                    <!-- main image  -->
+                    <div class="mb-3">
+                      <label for="mainImg" class="form-label">Upload Main Image :</label>
+                      <input class="form-control" type="file" name="mainImg" id="mainImg">
+                      <span class="mainImgError errorSpan"></span>
+                      <div id="mainPreview"></div>
+                    </div>
+
+                    <!-- multiple img  -->
+                    <div class="mb-3">
+                      <label for="multipleImg" class="form-label">Upload others Image :</label>
+                      <input class="form-control" type="file" id="multipleImg" name="multipleImg" multiple>
+                      <span class="multipleImgError errorSpan"></span>
+                      <div id="multipleImgPreview"></div>
+                    </div>
+
+                    <!-- checkbox  -->
+                    <div class="mb-3">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="productStatus" checked>
+                        <label class="form-check-label" for="productStatus"> ( Uncheck if the product is not currently Active ) </label>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Image Upload end -->
+                  <% if(flag == false) { %>
+                  <div class="g-3 d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary mt-4 insertBtn">Submit</button>
+                  </div>
+                  <% } else { %>
+                    <div class="g-3 d-flex justify-content-end">
+                      <input type="hidden" name="productId" id="productId" value="<%= productId %>">
+                      <button type="button" class="btn btn-primary mt-4 updateBtn">Update</button>
+                    </div>
+                  <% } %>
+                </form>
+              </div>
+            </div>
+
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+  <script src="/js/vendorAdmin/addProduct.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

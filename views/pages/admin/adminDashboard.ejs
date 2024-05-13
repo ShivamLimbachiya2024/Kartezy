@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: #df909d;
+    }
+  </style>
+
+  <title>Admin Dashboard</title>
+</head>
+
+<body onload="showGridResult('/kartezy/admin/getRecentOrders')">
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper" style="height: 100dvh; overflow-y: auto;">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+              <div class="col-md-3">
+                <div class="p-3 shadow-sm d-flex justify-content-around align-items-center rounded admin-btn">
+                  <div class="text-center">
+                    <h3 class="fs-2" id="totalcustomers">129</h3>
+                    <p class="fs-3">Customers</p>
+                  </div>
+               
+                  <i class="bi bi-people-fill fs-1 primary-text border rounded-circle secondary-bg p-3 "></i>
+             
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="p-3  shadow-sm d-flex justify-content-around align-items-center rounded admin-btn">
+                  <div class="text-center">
+                    <h3 class="fs-2" id="totalvendors"></h3>
+                    <p class="fs-3">Vendors</p>
+                  </div>
+                  <i class="bi bi-person-standing fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="p-3  shadow-sm d-flex justify-content-around align-items-center rounded admin-btn">
+                  <div class="text-center">
+     
+                    <h3 class="fs-2" id="totalproducts">720</h3>
+                    <p class="fs-3">Products</p>
+                  </div>
+                  <i class="bi bi-box-seam fs-1 primary-text border rounded-full secondary-bg p-3 "></i>
+
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="p-3  shadow-sm d-flex justify-content-around align-items-center rounded admin-btn">
+                  <div class="text-center">
+                    <h3 class="fs-2" id="totalorders">151</h3>
+                    <p class="fs-3">Orders</p>
+                  </div>
+                  <i class="bi bi-bag-check fs-1 primary-text border rounded-full secondary-bg p-3 "></i>
+
+                </div>
+              </div>
+            
+            </div>
+         
+           
+            <div class="row  my-5 ms-5">
+
+
+              <div class="col-md-4 d-felx justify-content-center bg-light me-5">
+                <h3 class="ms-5 ">Products in Demand</h3>
+                <div class="col-md-4 d-felx justify-content-center mt-5" id="chart"></div>
+
+              </div>
+              <div class="col-md-4 d-felx justify-content-center bg-light ">
+                <h3 class="ms-5"> Order trend</h3>
+                <div class="col " id="chart1"></div>
+
+              </div>
+
+
+            </div>
+
+            <div class="row  my-5">
+
+
+              <div class="col-md-4 d-felx justify-content-center bg-light ms-5 ">
+                <h3 class="ms-5">Products Stock</h3>
+                <div class="col d-felx justify-content-center mt-5" id="chart2"></div>
+
+              </div>
+              <div class="col-md-5 d-felx justify-content-center bg-light ms-5 ">
+                <h3 class="ms-5"> Customer registration per month</h3>
+                <div class="col " id="chart3"></div>
+
+              </div>
+
+
+            </div>
+
+            <div class="row g-3 my-2 mb-5">
+              <h3>Recent Orders</h3>
+              <div class="col">
+                <%- include('../../components/grid2ndversion.ejs'); %>
+              </div>
+
+            </div>
+
+
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"> </script>
+  <script src="/js/vendorAdmin/script.js"></script>
+
+ 
+
+
+
+  <script>
+    let totalVendors
+    let totalCustomers
+    let totalProducts
+    let totalOrders
+    let x = []
+    let y = []
+
+    document.getElementById("modulename").innerHTML = 'Dashboard'
+
+    async function getTotalValues() {
+      const totalVendordata = await fetch('/kartezy/admin/getTotalVendors');
+      const totalCustomerdata = await fetch('/kartezy/admin/getTotalCustomers');
+      const totalProductdata = await fetch('/kartezy/admin/getTotalProducts');
+      const totalOrderData = await fetch('/kartezy/admin/getCustomerOrderHistory');
+
+
+      const totalVendorsdata1 = await totalVendordata.json();
+      const totalCustomerdata1 = await totalCustomerdata.json();
+      const totalProductdata1 = await totalProductdata.json();
+      const totalOrderData1 = await totalOrderData.json();
+
+
+
+      const response = await fetch('/kartezy/admin/getproductQty');
+      const productdata = await response.json();
+
+      const pr = await productdata.result
+
+      pr.forEach(ele => {
+        x.push(ele.product_name)
+        y.push(ele.total_quantity)
+      })
+
+
+     
+      totalVendors = totalVendorsdata1.length
+      totalCustomers = totalCustomerdata1.length
+      totalProducts = totalProductdata1.length
+      totalOrders = totalOrderData1.length
+
+      document.getElementById("totalvendors").innerHTML = `${totalVendors}`
+      document.getElementById("totalproducts").innerHTML = `${totalProducts}`
+      document.getElementById("totalorders").innerHTML = `${totalOrders}`
+      document.getElementById("totalcustomers").innerHTML = `${totalCustomers}`
+
+
+
+
+
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+
+
+
+      const orderData = await totalOrderData1.map(ele => {
+
+        let dt = new Date(ele.order_date)
+        let datatYear = dt.getFullYear();
+
+
+
+        if (datatYear === currentYear) {
+
+          ele.order_date = dt.toLocaleString('default', { month: 'long' })
+          return ele
+        }
+      })
+      const orderFreq = orderData.reduce((acc, curr) => {
+        if (acc[curr.order_date]) {
+          acc[curr.order_date] = ++acc[curr.order_date]
+        }
+        else {
+          acc[curr.order_date] = 1
+        }
+        return acc
+      }, {})
+
+
+      const month_x = Object.keys(orderFreq);
+      const y_data = Object.values(orderFreq)
+
+
+      const perMonthUser = totalCustomerdata1.map(ele => {
+        let dt1 = new Date(ele.create_at);
+        let dt1Year = dt1.getFullYear();
+        if (dt1Year === currentYear) {
+          ele.create_at = dt1.toLocaleString('default', { month: 'long' });
+          return ele
+        }
+      })
+
+
+
+
+      const perMonthUserCount = perMonthUser.reduce((acc, curr) => {
+
+ 
+        if (acc[curr.create_at]) {
+          acc[curr.create_at] += 1
+
+        }
+        else {
+          acc[curr.create_at] = 1
+
+        }
+        return acc;
+      }, {});
+
+      let userMonth = Object.keys(perMonthUserCount);
+      let perMonthUserNumber = Object.values(perMonthUserCount);
+
+      const totalUserInYear = perMonthUserNumber.reduce((acc, curr) => {
+        acc = acc + curr;
+        return acc;
+      }, 0);
+
+
+      const percentagePerMonthUser = perMonthUserNumber.map(ele => {
+        return ((ele / totalUserInYear) * 100).toFixed(2)
+      })
+
+
+
+
+
+
+
+      let productName = []
+      let productQnt = []
+      totalProductdata1.map(ele => {
+        productName.push(ele.product_name);
+        productQnt.push(ele.quanitiy)
+      })
+
+
+
+
+
+      //pie chart 
+      var options = {
+        // series: [44, 55, 13, 43, 22],
+        series: y,
+
+        chart: {  
+          width: 380,
+          type: 'pie',
+        },
+        // labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+        labels: x,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      //line chart
+      var options = {
+        series: [{
+          name: "order ",
+          // data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+          data: y_data
+        }],
+        chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Order Trends by Month',
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+          categories: month_x,
+        }
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart1"), options);
+      chart.render();
+
+
+
+      //bar charts
+      var options = {
+        series: [{
+          // data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+          data: productQnt
+        }],
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            horizontal: true,
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          // categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+          //   'United States', 'China', 'Germany'
+          // ],
+          categories: productName
+        }
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart2"), options);
+      chart.render();
+
+
+      //column charts
+      var options = {
+        series: [{
+          name: 'per month user registration',
+          // data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+          data: percentagePerMonthUser
+        }],
+        chart: {
+          height: 350,
+          type: 'bar',
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top', // top, center, bottom
+            },
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return val + "%";
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#304758"]
+          }
+        },
+
+        xaxis: {
+          // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          categories: userMonth,
+          position: 'top',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          crosshairs: {
+            fill: {
+              type: 'gradient',
+              gradient: {
+                colorFrom: '#D8E3F0',
+                colorTo: '#BED1E6',
+                stops: [0, 100],
+                opacityFrom: 0.4,
+                opacityTo: 0.5,
+              }
+            }
+          },
+          tooltip: {
+            enabled: true,
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: false,
+            formatter: function (val) {
+              return val + "%";
+            }
+          }
+
+        },
+        title: {
+          text: 'Monthly customer  registration for the current year',
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
+          }
+        }
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart3"), options);
+      chart.render();
+
+    }
+    getTotalValues();
+
+  </script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

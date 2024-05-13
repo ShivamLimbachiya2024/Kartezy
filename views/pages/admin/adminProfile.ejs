@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Profile</title>
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .ParentVendor {
+      /* border:2px solid red; */
+      /* height: 50dvh; */
+      padding: 60px;
+      background: #fffcfc;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    .SubChildLeft {
+      /* border:2px solid rgb(8, 0, 0); */
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .SubChildRight {
+      /* border:2px solid rgb(80, 43, 43); */
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input {
+      width: 200px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/vendorAdmin.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+         <%- include('../../components/adminheader.component.ejs'); %> 
+          <div class="container-fluid px-4">
+
+            <div class="row  my-5 ms-5">
+              <h3> Profile</h3>
+
+
+         <%- include("../../components/vendorForm.ejs") %>
+
+
+
+
+            </div>
+
+          </div>
+      </div>
+  </div>    
+ 
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/vendorAdmin/vendorCrud.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script>
+    document.getElementById("email").readOnly=true;
+    document.getElementById("mobileNo").readOnly=true
+  </script>
+</body>
+
+</html>

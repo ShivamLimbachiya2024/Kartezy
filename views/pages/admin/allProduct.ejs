@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Products report</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+  <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <style>
+    .rcol:hover {
+      background-color: var(--main-bg-color);
+    }
+
+    .c1 {
+      color: inherit;
+      opacity: 53%;
+    }
+
+    .scrollable-div {
+      height: 700px;
+      /* set a fixed height for the div */
+      overflow-y: scroll;
+      /* enable vertical scrollbar */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <!-- <div class="container-fluid mt-5 mx-5  py-3 border border-dark "> -->
+
+          <!-- </div> -->
+          <div class="container-fluid px-4">
+            <h2 class="text-center">All Available Products</h2>
+            <div class="row my-2 justify-content-center">
+            <div class=" col-3 d-flex justify-content-center">
+              <input type="text" id="query"  class="form-control inputBtn mx-3" placeholder="Search">
+              <button type="button" class="btn btn-secondary  mr-5" onclick="search()"><i class="bi bi-search"></i></button>
+            </div>
+            <div class="row my-2" id ="message"></div>
+            </div>
+            <div class="row scrollable-div" id="productlisting" >
+             
+
+            </div>
+          </div>
+      </div>
+  </div>
+  </div>
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/admin_api/allProduct.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+
+  <title>Home Page</title>
+</head>
+
+<body>
+
+  <%- include('../components/header.componant.ejs'); %>
+  <div class="container my-4">
+    <%- include('../components/calendar.component.ejs'); %>
+  </div>
+  <%- include('../components/footer.componant.ejs'); %>
+    
+</body>
+<script src="/bootstrap/bootstrap.bundle.min.js"></script>
+</html>

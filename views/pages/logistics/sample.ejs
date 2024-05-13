@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/admin.css" />
+
+    <script src="/sweetalert2/sweetalert2.min.js"></script>
+    <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Logistic - Sample</title>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <%- include('../../components/logistic.sidebar.ejs'); %>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+          <%- include('../../components/logistic.header.ejs'); %>
+            <div class="container-fluid px-4">
+                <div class="row my-5">
+                  <div class="mb-3">
+                    <h3 class="fs-4 mb-3 d-inline-block">All Products</h3>
+                    <a class="admin-btn" href="/kartezy/vendorAdmin/products/addProduct" style="float: right;"> <i class="bi bi-plus fs-5 "></i> Add Product</a>
+                  </div>
+                  <div class="col overflow-scroll">
+                    <table class="table table-bordered align-middle">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+    <script src="/js/vendorAdmin/script.js"></script>
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+    
+</body>
+
+</html>

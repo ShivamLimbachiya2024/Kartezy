@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: #f3b6c0;
+    } 
+    .c1{
+      color: inherit;
+      opacity: 53%;
+    }
+    
+  
+  
+  </style>
+
+  <title>Vendor calendor</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    
+    <%- include('../../components/logistic.sidebar.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/logistic.header.ejs'); %>
+          <div class="container-fluid px-4" style="width: 80%">
+            <%- include('../../components/calendar.component.ejs'); %>
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script> 
+
+</body>
+
+</html>

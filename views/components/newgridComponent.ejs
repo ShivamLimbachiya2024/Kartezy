@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Component</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+</head>
+
+<body onload="showGridResult('/kartezy/admin/getTotalCustomers')">
+  <div class="container">
+    <div class="row">
+      <div class="input-group v1">
+        <input type="text" class="form-control" name="query" id="query" style="color:#7a7a7a">
+        <button class="btn bg-light border text-dark" onclick="search()">Search</button>
+      </div>
+      <div class="text-center my-4 col-6">
+        <button type="button" class="btn btn-primary" disabled onclick="previous()" id="previous"><i
+            class="bi bi-chevron-left"></i></button>
+        <span id="page" class="fs-4 align-middle mx-2">1</span>
+        <button type="button" class="btn btn-primary" onclick="next()" id="next"><i
+            class="bi bi-chevron-right"></i></button>
+
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped w-auto mx-auto container">
+    <thead>
+      <tr id="field"></tr>
+    </thead>
+    <tbody id="fieldData"></tbody>
+  </table>
+  <script>
+
+
+
+
+
+    let page = 1;
+    let gridComponentResult;
+    const recordsPerPage = 3;
+    let pageNumber = 1;
+    let totalPages;
+    let start = (pageNumber - 1) * recordsPerPage;
+    let end = start + recordsPerPage;
+
+    let oldData = []
+
+
+
+
+    async function search() {
+      const query = document.getElementById('query').value
+
+
+      if (oldData.length == 0) {
+        oldData = gridComponentResult
+      }
+      gridComponentResult = oldData;
+      gridComponentResult = gridComponentResult.filter(item => {
+        return Object.values(item).toString().toLowerCase().includes(query.toLowerCase())
+      })
+
+      pageNumber = 1;
+      totalRecords = gridComponentResult.length;
+      totalPages = Math.ceil(totalRecords / recordsPerPage);
+      document.getElementById("next").disabled = false
+
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+
+
+      document.getElementById("fieldData").innerHTML = ''
+      gridResult();
+
+    }
+
+
+    async function showGridResult(url) {
+      const response = await fetch(url);
+      gridComponentResult = await response.json();
+
+      let totalRecords = gridComponentResult.length;
+      totalPages = Math.ceil(totalRecords / recordsPerPage);
+
+      let fieldName = Object.keys(gridComponentResult[0]);
+      let field = document.getElementById("field");
+      fieldName.forEach(element => {
+        let th = document.createElement("th");
+        th.innerHTML = element;
+        field.appendChild(th);
+
+      });
+      let th = document.createElement("th");
+      th.innerHTML = 'view more'
+      field.appendChild(th)
+
+
+      gridResult();
+    }
+
+
+    async function gridResult() {
+      if (start > gridComponentResult.length) {
+        start = 0;
+      }
+      let newGridComponentResult = gridComponentResult.slice(start, end);
+      let tag = "";
+      let tags = "";
+
+      const tbody = document.getElementById("fieldData");
+      newGridComponentResult.forEach(dataArray => {
+        let keysArray = Object.keys(dataArray);
+        let valuesArray = Object.values(dataArray);
+        let tr = document.createElement("tr");
+
+        valuesArray.forEach(valuesResult => {
+
+          let td = document.createElement("td");
+          td.innerText += valuesResult;
+          tr.appendChild(td);
+
+        });
+        let td1 = document.createElement("td");
+        td1.innerHTML = `<button type="button" onclick="window.location.href=""" class="btn btn-danger">View More</button>`
+        tr.appendChild(td1)
+
+
+        tbody.appendChild(tr)
+      });
+      document.getElementById('page').innerHTML = pageNumber;
+    }
+
+
+
+
+    function next() {
+      pageNumber++;
+
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+
+      if (pageNumber == totalPages) {
+        document.getElementById('next').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('previous').disabled = false;
+      }
+
+    }
+
+    
+
+    function previous() {
+      pageNumber--;
+      start = (pageNumber - 1) * recordsPerPage;
+      end = start + recordsPerPage;
+      if (pageNumber == 1) {
+        document.getElementById('previous').disabled = true;
+      }
+      if (pageNumber <= totalPages) {
+        document.getElementById("fieldData").innerHTML = '';
+        gridResult();
+        document.getElementById('next').disabled = false;
+      }
+    }
+
+
+
+
+
+  </script>
+</body>
+
+</html>

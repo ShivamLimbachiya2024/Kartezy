@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="../../css/images/zoomOut.css">
+<link rel="stylesheet" href="/css/main.css" />
+<header class="sticky-top">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-light p-3 shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="/kartezy"><img src="/images/backgrounds/logo-transparent-red.png" alt="logo"
+          width="130px"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <form action="/KartEzy/home/filterPage" method="get">
+          <div class="input-group border" style="border-radius: 4px;">
+            <input type="search" name="search" placeholder="What're you searching for?" aria-describedby="button-addon3" class="form-control bg-none border-0">
+            <div class="input-group-append border-0 header-search-btn">
+              <button id="button-addon3" type="submit" class="btn btn-link text-success"><i class="bi bi-search search-icon"></i></button>
+            </div>
+          </div>
+        </form>
+        
+        <ul class="navbar-nav ms-auto align-items-center" id="userinfo">
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="superNav border-bottom py-2 bg-light">
+  <div class="container">
+    <!-- <div class="d-flex"> -->
+      <!-- <div class="col-md-12 col-sm-12 col-xs-12 centerOnMobile"> -->
+        <div class="d-flex justify-content-between">
+          <span class="mt-1 d-md-block" onclick="scrollCategory(-500)"><i class="bi bi-caret-left-fill primary-text"></i></span>
+          <ul class="navbar-nav d-flex flex-row justify-content-between" id="categoryinfo" style="overflow-x: hidden; scroll-behavior: smooth; width: 94%;">
+          </ul>
+          <span class="mt-1 d-md-block" onclick="scrollCategory(500)"><i class="bi bi-caret-right-fill primary-text"></i></span>
+        </div>
+      <!-- </div> -->
+    <!-- </div> -->
+  </div>
+</div>
+<script src="/socket/socket.io.js"></script>
+<script src="/js/homeApi/displayHeader.js"></script>
+<script>
+  displayHeader();
+  let flag = 0;
+  const scrollCategory= (type) => {
+    flag += type
+    if(type == 1){
+      document.getElementById("categoryinfo").scrollTo(flag, 0);
+    }
+    else{
+      document.getElementById("categoryinfo").scrollTo(flag, 0)
+    }
+  }
+</script>
+<script src="/js/resetPassword/resetPassword.js"></script>
+<script src="/js/resetPassword/displayResetPassword.js"></script>
+<script src="/js/profile/displayProfile.js"></script>
+<script src="/js/profile/editProfilePage.js"></script>
+<script src="../../js/zoomed_out/zoomedOut.js"></script>

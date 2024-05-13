@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: rgb(193, 206, 204);
+    }
+
+    .vf {
+      background-color: #fff0f0;
+      padding-top: 25px;
+      padding-left: 21px;
+      margin-top: 2px;
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+
+  <title>Admin - Vendor Delete</title>
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+
+            <div class="row my-5">
+
+              <div class="col">
+                <h1 class="text-center">Vendor List</h1>
+                <table class="table" id="vendortable">
+
+                </table>
+              </div>
+
+            </div>
+
+            <div class="row my-3">
+              <div class="col-3 mx-auto">
+                <button type="button" class="btn btn-primary" id="first" onclick="firstp()">first</button>
+                <button type="button" class="btn btn-secondary" id="prev" onclick="previousp()">prev</button>
+                <button type="button" class="btn btn-light" id="page"></button>
+
+                <button type="button" class="btn btn-primary" id="next" onclick="nextp()">next</button>
+                <button type="button" class="btn btn-secondary" id="last" onclick="lastp()">last</button>
+              </div>
+
+            </div>
+            <div class="row my-3">
+              <div class="col-3  mx-auto">
+                <button type="button" class="btn btn-warning ms-5" id="back" onclick="backtoDashboard()">Back to
+                  Dashboard</button>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+
+    let data;
+    let keys;
+    let starting_page = 1;
+    let page_per_item = 2;
+    let vdata;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch('/kartezy/admin/getTotalVendors');
+      data = await response.json()
+
+
+      keys = Object.keys(data[0]);
+
+      length = data.length
+
+      listVendor();
+
+    });
+
+
+
+    async function listVendor() {
+      const last_page_index = starting_page * page_per_item;
+      const first_page_index = last_page_index - page_per_item
+      const new_data = data.slice(first_page_index, last_page_index)
+
+      let temp = `<tr>
+         <td>${keys[0]}</td>
+         <td>${keys[2]}</td>
+         <td>${keys[3]}</td>
+         <td>${keys[4]}</td>
+         <td>${keys[5]}</td>
+         <td>${keys[6]}</td>
+         <td>remove vendor</td>
+         <td>view products</td>
+         </tr>`
+
+      new_data.forEach(ele => {
+        temp += `<tr>
+        <td>${ele.id}</td>
+        <td>${ele.first_name}</td>
+        <td>${ele.last_name}</td>
+        <td>${ele.email}</td>
+        <td>${ele.dob}</td>
+        <td>${ele.mobile_no}</td>
+        <td> <button type="button" onclick="removeVendor(${ele.id})" class="btn btn-danger">Remove Vendor</button></td>
+        <td> <button type="button" onclick="viewProducts(${ele.id})" class="btn btn-success">View Products</button></td>
+        
+        </tr>`;
+
+      });
+
+      document.getElementById("vendortable").innerHTML = temp
+      document.getElementById("page").innerHTML = starting_page
+
+
+    }
+
+    async function removeVendor(id) {
+      // fetch(`/kartezy/admin/deleteVendor?id=${id}`);
+      Swal.fire({
+        title: "Do you want to Remove the vendor?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Remove",
+        denyButtonText: `Don't Remove`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+
+        if (result.isConfirmed) {
+          fetch(`/kartezy/admin/deleteVendor?id=${id}`)
+          Swal.fire("Removed!", "", "success").then(() => {
+            window.location.href = "/kartezy/admin/displayVendorslist"
+          });
+
+
+
+        } else if (result.isDenied) {
+          Swal.fire("Vendor has not been removed", "", "info");
+        }
+      })
+    }
+
+    async function viewProducts(id) {
+
+      // const response = await fetch(`/kartezy/admin/vendorProducts?id=${id}`)
+      // const vendorProducts = await response.json();
+      // vdata = vendorProducts
+      window.location.href = `/kartezy/admin/vendorProductsView?id=${id}`
+    }
+
+
+    function backtoDashboard() {
+      window.location.href = `/kartezy/admin`
+    }
+
+    const firstp = () => {
+      starting_page = 1;
+      document.getElementById("next").disabled = false;
+      document.getElementById("last").disabled = false
+
+      if (starting_page == 1) {
+        document.getElementById("first").disabled = true;
+        document.getElementById("prev").disabled = true;
+
+        document.getElementById("last").disabled = false
+
+      }
+      if (starting_page * page_per_item < length) {
+        document.getElementById("last").disabled = false;
+      }
+
+      listVendor();
+
+
+    }
+
+
+
+    const previousp = () => {
+
+      document.getElementById("next").disabled = false;
+      document.getElementById("last").disabled = false
+
+      if (starting_page == 1) {
+        listVendor();
+        document.getElementById("prev").disabled = true;
+        document.getElementById("first").disabled = true;
+        // document.getElementById("next").disabled = false;
+        // document.getElementById("last").disabled = false
+      }
+
+      if (starting_page > 1) {
+        document.getElementById("prev").disabled = false;
+        document.getElementById("first").disabled = false;
+        document.getElementById("next").disabled = false;
+        document.getElementById("last").disabled = false
+        starting_page--;
+        listVendor();
+
+      }
+
+    }
+
+
+    const nextp = () => {
+      starting_page++
+      document.getElementById("first").disabled = false;
+      document.getElementById("prev").disabled = false;
+
+      if (starting_page * page_per_item >= length) {
+        document.getElementById("next").disabled = true;
+        document.getElementById("last").disabled = true;
+
+      }
+
+      if (starting_page != 1) {
+        document.getElementById("first").disabled = false;
+        
+      }
+
+      listVendor();
+
+      if (starting_page > 1) {
+        document.getElementById("prev").disabled = false;
+      }
+    }
+
+
+
+    const lastp = () => {
+
+      document.getElementById("first").disabled = false;
+      document.getElementById("prev").disabled = false;
+      let x = (length / page_per_item);
+      starting_page = Math.ceil(x)
+
+
+      if (starting_page * page_per_item >= length) {
+        document.getElementById("last").disabled = true;
+        document.getElementById("next").disabled = true;
+        // document.getElementById("first").disabled = false;
+        // document.getElementById("prev").disabled = false;
+      }
+
+      listVendor();
+    }
+
+  </script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+  <script src="/js/vendorAdmin/script.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS -->
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: rgb(193, 206, 204);
+    }
+    .vf{
+      background-color: #fff0f0;
+      padding-top: 25px;
+      padding-left: 21px;
+      margin-top: 2px;
+    }
+
+  </style>
+
+  <title>Admin - Vendor Insert</title>
+</head>
+
+<body >
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../components/adminsidebar.component.ejs'); %>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+           
+            <div class="row g-3 my-2">
+              <h2 class="text-center">Insert Vendor</h2>
+              <div class="col d-flex justify-content-center ">
+                <%- include('../../components/vendorcrud.component.ejs'); %>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+  </div>
+
+
+  <script src="/js/vendorAdmin/dashboard.js"></script> 
+
+   <script>
+    document.getElementById("modulename").innerHTML='Admin Panel'
+   let x = document.getElementById("vf").classList.add('vf')
+    
+  </script> 
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+
+  <script src="/js/vendorAdmin/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Admin - Set Role Permission</title>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+	<script src="/sweetalert2/sweetalert2.min.js"></script>
+	<link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .rcol:hover {
+      background-color: var(--main-bg-color);
+    }
+  </style>
+</head>
+  <body onload="displayPermission('user')" style="overflow: hidden;">
+    <div class="d-flex" id="wrapper">
+      <!-- Sidebar -->
+      <%- include('../../components/adminsidebar.component.ejs'); %>
+        <!-- /#sidebar-wrapper -->
+  
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+          <%- include('../../components/adminheader.component.ejs'); %>
+          <div class="container-fluid px-4">
+            <div class="row mb-3">
+              <div class="col" style="display: flex; flex-direction: row-reverse;"><a class="admin-btn" style="width: fit-content;" href="/kartezy/rolepermission/addpermission"><i class="bi bi-pencil-square"></i>&nbsp;Edit</a></div>
+            </div>
+
+            <div class="row">
+              <div class="col-3"><p class="admin-btn" onclick="displayPermission('user')" id="customerbtn">Customer</p></div>
+              <div class="col-3"><p class="admin-btn" onclick="displayPermission('logistic')" id="logisticbtn">Logistics</p></div>
+              <div class="col-3"><p class="admin-btn" onclick="displayPermission('vendor')" id="vendorbtn">Vendor</p></div>
+              <div class="col-3"><p class="admin-btn" onclick="displayPermission('admin')" id="customerbtn">Admin</p></div>
+            </div>
+      
+            <div class="row" style="height: 75dvh; overflow-y: scroll;">
+              <table class="table table-hover" id="displayRolePermission">
+                <tr>
+                  <th class="text-center">Index</th>
+                  <th class="text-center">Permission</th>
+                  <th class="text-center">Url</th>
+                  <th class="text-center">Method</th>
+                  <th class="text-center">Create Permission Time</th>
+                  <th class="text-center">Operation</th>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+
+  <script src="/js/vendorAdmin/dashboard.js"></script>
+  <script src="/js/vendorAdmin/script.js"></script>
+  <script src="/js/rolePermission/displayPermission.js"></script>
+  <script src="/js/getCookie.js"></script>
+  <script src="/js/rolePermission/updatePermission.js"></script>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  </html>

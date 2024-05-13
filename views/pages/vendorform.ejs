@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Admin - Vendor details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="../../public/css/main.css">
+</head>
+
+<body>
+  <div class="container">
+    <form id="vender" method="post">
+      <div class="row mt-5 bg-light">
+
+        <div class="col-4 .bg-light.bg-gradient">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" tabindex="1" class="form-control" id="firstName" name="firstname"
+              placeholder="Enter User first name">
+            <p class="text-danger"><small id="firstnameError"></small></p>
+
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+              placeholder="Enter email" tabindex="3">
+            <p class="text-danger"><small id="emailError"></small></p>
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfBirth">Date of birth</label>
+            <input type="date" tabindex="5" class="form-control" id="dob" name="dob" placeholder="Enter dob">
+            <p class="text-danger"><small id="dobError"></small></p>
+          </div>
+
+        </div>
+
+
+        <div class="col-4 .bg-light.bg-gradient">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" tabindex="2" class="form-control" id="lastName" name="lastName"
+              placeholder="Enter User last name">
+            <p class="text-danger"><small id="lastNameError"></small></p>
+          </div>
+
+          <div class="form-group">
+            <label for="mobileNo">Mobile No</label>
+            <input type="varchar" tabindex="4" class="form-control" id="mobileNo" name="mobile"
+              placeholder="Enter mobile no">
+            <p class="text-danger"><small id="mobileError"></small></p>
+          </div>
+
+
+
+        </div>
+        <div class="row text-center">
+          <div class="form-group">
+            <!-- <button class=".btn mt-5" type="button" tabindex="6" id="button" onclick="submitVendordata()"> insert
+              vendor</button> -->
+              <button type="button" class="btn btn-info mt-5 mb-2" tabindex="6" id="button" onclick="submitVendordata()">Insert Vendor</button>
+
+          </div>  
+
+        </div>
+        <div class="row text-center">
+          <div class="span text-center text-danger" id="errorEmail">
+          </div>
+
+          <div class="span text-center text-danger" id="successEmail">
+          </div>
+
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+
+    let obj = {}
+    function validateForm() {
+      const phoneRegex = /^[0-9]{10}$/;
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      const name = /^[a-zA-Z ]+$/;
+      const formdata = document.querySelectorAll("#vender input");
+
+      obj.error = []
+      formdata.forEach(ele => {
+        if (ele.value == '') {
+
+
+          let v = document.getElementById(`${ele.name}` + "Error").innerHTML = `${ele.name}` + " " + "required";
+          obj.error.push(`${ele.name}` + " " + "required")
+        }
+
+
+        else if (ele.value != '') {
+          document.getElementById(`${ele.name}` + "Error").innerHTML = '';
+        }
+
+
+      })
+
+
+      formdata.forEach(ele => {
+        if (ele.name == 'firstname' && ele.value != '') {
+          const fname = ele.value.trim()
+          if (!name.test(fname)) {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = `enter proper name`;
+            obj.error.push(`enter proper name`)
+          }
+
+        }
+        if (ele.name === 'email' && ele.value != '') {
+          const email = ele.value.trim()
+          if (!emailRegex.test(email)) {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = `enter proper email`;
+            obj.error.push(`enter proper email`)
+          }
+
+        }
+
+        if (ele.name === 'lastName' && ele.value != '') {
+          const lastName = ele.value.trim()
+          if (!name.test(lastName)) {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = `enter proper last Name`;
+            obj.error.push(`enter proper last name`)
+          }
+
+        }
+        if (ele.name === 'mobile' && ele.value != '') {
+          const mobile = ele.value.trim()
+          if (!phoneRegex.test(mobile)) {
+            document.getElementById(`${ele.name}` + "Error").innerHTML = `enter proper mobile no`;
+            obj.error.push(`enter proper mobile no`)
+          }
+
+        }
+
+      })
+
+   
+    }
+    // validateForm();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Extract ID parameter from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+
+      // If ID parameter is present, populate the form with data for that ID
+      if (id) {
+        document.getElementById("button").innerHTML = "update vendor"
+        populateFormWithUserData(id);
+
+
+
+      }
+
+    });
+
+
+
+
+    var url = window.location.href.substring(22);
+    var urlUpdate = url.match("update");
+    var urlInsert = url.match("insert")
+
+
+    async function submitVendordata() {
+
+      validateForm();
+      if (obj.error != "") {
+        return
+      }
+
+      // const data = new URLSearchParams(new FormData(document.getElementById("vender")));
+      const form = document.getElementById('vender');
+      const formData = new FormData(form);
+      const serializedFormData = {};
+
+      for (const [key, value] of formData.entries()) {
+        const fieldName = key.replace('[]', '');
+        if (!serializedFormData[fieldName]) {
+          serializedFormData[fieldName] = [];
+        }
+        serializedFormData[fieldName].push(value);
+
+      }
+
+
+      // if(urlupdate.includes("update")){
+
+      // }
+      if (urlUpdate) {
+        if (urlUpdate.includes("update")) {
+          try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            const response = await fetch(`/kartezy/vendor/update/${id}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(serializedFormData)
+            });
+            const res = await response.json();
+            if (res.flag == false) {
+              document.getElementById("errorEmail").innerHTML = "updation failed";
+              return
+            }
+            if (res.flag == true) {
+              document.getElementById("successEmail").innerHTML = "Data updated successfully"
+            }
+          }
+          catch (error) {
+            console.error("There was a problem with your fetch operation:", error)
+          }
+        }
+
+      }
+      if (urlInsert) {
+        if (urlInsert.includes("insert")) {
+          try {
+            const response = await fetch('/kartezy/vendor/insert', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(serializedFormData)
+            });
+            const res = await response.json();
+            if (res.flag == false) {
+              document.getElementById("errorEmail").innerHTML = "cannot insert data user already exist";
+              return
+            }
+            if (res.flag == true) {
+              document.getElementById("errorEmail").innerHTML = " ";
+              // document.getElementById("successEmail").innerHTML = "Data inserted successfully"
+              Swal.fire({
+                title: "Vendor added !",
+                text: "A new vendor has been added",
+                icon: "success"
+              }).then(()=>{
+                window.location.href=`/kartezy/admin`
+              });
+            }
+          }
+          catch (error) {
+            console.error("There was a problem with your fetch operation:", error)
+          }
+        }
+
+      }
+
+    }
+    async function populateFormWithUserData(id) {
+      const response = await fetch(`/kartezy/vendor/getdata?id=${id}`);
+      const data = await response.json();
+      JSON.stringify(data)
+
+      document.getElementById("firstName").value = data.result[0].first_name
+      document.getElementById("lastName").value = data.result[0].last_name
+      document.getElementById("email").value = data.result[0].email
+
+      document.getElementById("mobileNo").value = data.result[0].mobile_no
+      document.getElementById("dob").value = data.result[0].dob
+
+
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

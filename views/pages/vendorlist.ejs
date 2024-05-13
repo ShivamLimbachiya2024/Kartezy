@@ -1,0 +1,242 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Admin - Vendor listing</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row my-5">
+
+      <div class="col">
+        <h1 class="text-center">Vendor List</h1>
+        <table class="table" id="vendortable">
+
+        </table>
+      </div>
+
+
+
+    </div>
+
+  </div>
+  <div class="row my-3">
+    <div class="col-2 mx-auto">
+      <button type="button" class="btn btn-primary" id="first" onclick="firstp()">first</button>
+      <button type="button" class="btn btn-secondary" id="prev" onclick="previousp()">prev</button>
+      <button type="button" class="btn btn-light" id="page"></button>
+
+      <button type="button" class="btn btn-primary" id="next" onclick="nextp()">next</button>
+      <button type="button" class="btn btn-secondary" id="last" onclick="lastp()">last</button>
+    </div>
+
+  </div>
+  <div clsaa="rpw my-3">
+    <div class="col-1 mx-auto">
+      <button type="button" class="btn btn-secondary" id="back" onclick="backtoDashboard()">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+  <script>
+    let data;
+    let keys;
+    let starting_page = 1;
+    let page_per_item = 2;
+    let vdata;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch('/kartezy/admin/getTotalVendors');
+      data = await response.json()
+
+ 
+      keys = Object.keys(data[0]);
+    
+      length = data.length
+
+      listVendor();
+
+    });
+
+
+
+    async function listVendor() {
+      const last_page_index = starting_page * page_per_item;
+      const first_page_index = last_page_index - page_per_item
+      const new_data = data.slice(first_page_index, last_page_index)
+
+      let temp = `<tr>
+         <td>${keys[0]}</td>
+         <td>${keys[2]}</td>
+         <td>${keys[3]}</td>
+         <td>${keys[4]}</td>
+         <td>${keys[5]}</td>
+         <td>${keys[6]}</td>
+         <td>remove vendor</td>
+         <td>view products</td>
+         </tr>`
+
+      new_data.map(ele => {
+        temp += `<tr>
+        <td>${ele.id}</td>
+        <td>${ele.first_name}</td>
+        <td>${ele.last_name}</td>
+        <td>${ele.email}</td>
+        <td>${ele.dob}</td>
+        <td>${ele.mobile_no}</td>
+        <td> <button type="button" onclick="removeVendor(${ele.id})" class="btn btn-danger">Remove Vendor</button></td>
+        <td> <button type="button" onclick="viewProducts(${ele.id})" class="btn btn-success">View Products</button></td>
+        
+        </tr>`;
+
+      });
+
+      document.getElementById("vendortable").innerHTML = temp
+      document.getElementById("page").innerHTML = starting_page
+
+
+    }
+
+    async function removeVendor(id) {
+     
+      // fetch(`/kartezy/admin/deleteVendor?id=${id}`);
+       Swal.fire({
+        title: "Do you want to Remove the vendor?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Remove",
+        denyButtonText: `Don't Remove`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+       
+        if (result.isConfirmed) {
+          fetch(`/kartezy/admin/deleteVendor?id=${id}`)
+            Swal.fire("Removed!", "", "success").then(()=>{
+              window.location.href = "/kartezy/admin/displayVendorslist"
+            });
+          
+
+          
+        } else if (result.isDenied) {
+          Swal.fire("Vendor has not been removed", "", "info");
+        }
+      })
+      
+    }
+
+
+    async function viewProducts(id){
+     
+      const response= await fetch(`/kartezy/admin/vendorProducts?id=${id}`)
+      const vendorProducts=await response.json();
+      vdata=vendorProducts
+    }
+
+
+    function backtoDashboard(){
+      window.location.href=``
+    }
+
+
+
+
+    const firstp = () => {
+      starting_page = 1;
+ 
+      if (starting_page == 1) {
+        document.getElementById("first").disabled = true;
+        document.getElementById("prev").disabled = true;
+        document.getElementById("next").disabled = false;
+        document.getElementById("last").disabled = false
+
+      }
+      if (starting_page * page_per_item < length) {
+        document.getElementById("last").disabled = false;
+      }
+
+      listVendor();
+    
+
+    }
+
+
+
+    const previousp = () => {
+
+
+      if (starting_page == 1) {
+        listVendor();
+        document.getElementById("prev").disabled = true;
+        document.getElementById("first").disabled = true;
+        document.getElementById("next").disabled = false;
+        document.getElementById("last").disabled = false
+      }
+
+      if (starting_page > 1) {
+        document.getElementById("prev").disabled = false;
+        document.getElementById("first").disabled = false;
+        document.getElementById("next").disabled = false;
+        document.getElementById("last").disabled = false
+        starting_page--;
+        listVendor();
+
+      }
+
+    }
+
+
+    const nextp = () => {
+      starting_page++
+
+
+
+
+      if (starting_page * page_per_item >= length) {
+        document.getElementById("next").disabled = true;
+        document.getElementById("last").disabled = true;
+      }
+
+      if (starting_page != 1) {
+        document.getElementById("first").disabled = false;
+
+      }
+
+      listVendor();
+
+      if (starting_page > 1) {
+        document.getElementById("prev").disabled = false;
+      }
+    }
+
+
+
+    const lastp = () => {
+      let x = (length / page_per_item);
+      starting_page = Math.ceil(x)
+
+
+      if (starting_page * page_per_item >= length) {
+        document.getElementById("last").disabled = true;
+        document.getElementById("next").disabled = true;
+        document.getElementById("first").disabled = false;
+        document.getElementById("prev").disabled = false;
+      }
+
+      listVendor();
+    }
+
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

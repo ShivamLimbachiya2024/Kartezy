@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/sweetalert2/sweetalert2.min.js"></script>
+    <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+
+  <link rel="icon" type="image/x-icon" href="/images/backgrounds/logo-transparent-red.png">
+  <title>Logistic</title>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <%- include('../../components/logistic.sidebar.ejs'); %>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper" class="vh-100 overflow-scroll">
+                <%- include('../../components/logistic.header.ejs'); %>
+                    <div class="container-fluid px-4">
+                        <div class="row g-3 my-2 dashboardCounter">
+
+                            <div class="col-md-3">
+                                <div
+                                    class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                    <div>
+                                        <h3 class="fs-2" id="totalOrders">49</h3>
+                                        <p class="fs-5">Total Orders</p>
+                                    </div>
+                                    <i class="bi bi-receipt fs-1 primary-text border rounded-full  dashboard-count"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div
+                                    class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                    <div>
+                                        <h3 class="fs-2" id="pendingOrders">30</h3>
+                                        <p class="fs-5">Pending Orders</p>
+                                    </div>
+                                    <i class="bi bi-receipt fs-1 primary-text border rounded-full  dashboard-count"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div
+                                    class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                    <div>
+                                        <h3 class="fs-2" id="intransitOrders">19</h3>
+                                        <p class="fs-5">In-transit</p>
+                                    </div>
+                                    <i class="bi bi-truck fs-1 primary-text border rounded-full  dashboard-count"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                    <div>
+                                        <h3 class="fs-2" id="deliveredOrders">19</h3>
+                                        <p class="fs-5">Delivered</p>
+                                    </div>
+                                    <i class="bi bi-truck fs-1 primary-text border rounded-full  dashboard-count"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="container-fluid px-4">
+                    <div class="row g-3 my-2 dashboardCounter">
+                    </div>
+                    <div class="row  row ms-1">
+                        <div class="col-md-4 d-felx justify-content-center bg-light me-5">
+                            <h3 class="ms-5 text-center ">Order Delivered</h3>
+                            <div class="col-md-4 d-felx justify-content-center" id="chart"></div>
+                
+                        </div>
+                        <div class="col-md-4 d-felx justify-content-center bg-light ">
+                            <h3 class="ms-5 text-center">Orders by city</h3>
+                            <div class="col " id="odrByCity"></div>
+                        </div>
+
+                    </div>
+                    <div class="row  row ms-1 my-2">
+                        <div class="col-md-4 d-felx justify-content-center bg-light ">
+                            <h3 class="ms-5 text-center">Orders by month</h3>
+                            <div class="col " id="odrByMonth"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+    <script src="/js/vendorAdmin/script.js"></script>
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/js/logistic/dashboard.js"></script>
+
+</body>
+
+</html>

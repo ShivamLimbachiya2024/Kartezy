@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    th,
+    td {
+      border: 1px solid;
+      padding: 20px;
+    }
+
+    thead th {
+      border: 0px;
+    }
+  </style>
+</head>
+
+<body onload="displayNotification()">
+  <table id="calendar" style="width: 100%" class="primary-text">
+    <thead id="header">
+      <th colspan="6" id="printTime" class="primary-text fs-1"></th>
+      <th class="d-flex">
+        <button id='previousMonthCalendar' class="admin-btn m-1 p-0 px-3"><i class="bi bi-caret-left-fill fs-2"></i></button>
+        <button id='showCurrentEvent'  class="admin-btn m-1 p-0 px-3"><i class="bi bi-calendar2-minus-fill"></i></button>
+        <button id="nextMonthCalendar" class="admin-btn m-1 p-0 px-3"><i class="bi bi-caret-right-fill fs-2"></i></button>
+      </th>
+    </thead>
+    <tbody id="body"></tbody>
+  </table>
+</body>
+<script src="/js/calendar/calendar.js"></script>
+</html>

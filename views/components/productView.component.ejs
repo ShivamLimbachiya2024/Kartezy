@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bootstrapicons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="../../css/images/zoomOut.css" />
+  <script src="/sweetalert2/sweetalert2.min.js"></script>
+  <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+</head>
+
+<body onload="specificationResult()">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md image-container">
+        <img class="img-fluid image zoom-img " id="parentImage" src="/images/products/" alt="Main Image!">
+        <div class="row mt-4" id="subImages"></div>
+        <div class="zommed-image" ></div>
+      </div>
+      <div class="col-md">
+        <div class="fs-1 pt-5" id="title"></div>
+        <div class="mt-3" id="description"></div>
+        <div class="d-flex">
+          <i class="bi bi-currency-rupee fs-2"></i>
+          <div class="fs-2" id="price"></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <button type="button" class="minus"><i class="bi bi-dash"></i></button> &nbsp;
+            <span class="qty" id="qty">1</span> &nbsp;
+            <button type="button" class="plus"><i class="bi bi-plus"></i></button>
+          </div>
+        </div>
+        <div class="row d-flex mt-4">
+          <button type="button" id="addToCartBtn" class="btn admin-btn" style="width: fit-content;"><i
+              class="bi bi-cart-plus"></i>&nbsp;Add to Cart</button>
+          <button type="button" id="buyNowBtn" class="btn admin-btn ms-2" title="Buy Now" style="width: fit-content;"><i
+              class="bi bi-bag-heart-fill"></i>&nbsp;Buy Now</button>
+        </div>
+        <div class="row mt-4" id="starRating">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5 justify-content-around">
+      <div class="col-md-6">
+        <table class="table-borderless table" style="width: fit-content">
+          <thead>
+            <tr>
+              <th scope="col" class="fs-2">Specifications</th>
+            </tr>
+          </thead>
+          <tbody id="specifications"></tbody>
+        </table>
+      </div>
+
+      <div class="col-md-6">
+        <table class="table-borderless table">
+          <thead>
+            <tr>
+              <th scope="col" class="fs-2">
+                Comments
+              </th>
+              <th style="text-align: right;">
+                <span class="admin-btn btn" style="width: fit-content; border: 0px" onclick="reviewForm()"><i
+                    class="bi bi-send-plus fs-5"></i></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="comments"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/js/productView/productView.js"></script>
+  <script src="/js/review/fillRate.js"></script>
+  <script src="/js/review/reviewForm.js"></script>
+  <script src="../../js/zoomed_out/zoomedOut.js"></script>
+</body>
